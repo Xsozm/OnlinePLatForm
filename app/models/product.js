@@ -11,9 +11,9 @@ var productSchema = mongoose.Schema({
         required:true
     },
     value:Number,
-    subcategory_id: [{type:Schema.Types.ObjectId,ref:'subcategory'}]
+    subcategory_id: [{type:Schema.Types.ObjectId,ref:'Subcategory'}]
 })
 
-var product = mongoose.model("product", productSchema);
+var product = mongoose.model("Product", productSchema);
 
 module.exports = product;
