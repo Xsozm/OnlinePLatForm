@@ -15,10 +15,12 @@ var bodyParser = require('body-parser');
 
 
 app.use(bodyParser.urlencoded({extended: false}));
+app.use(router);
 
 mongoose.connect(DB_URI);
 
-app.use(router);
+
+
 app.listen(PORT, () => {
 	console.log('app listening on port 3000!');
 });
