@@ -1,9 +1,9 @@
-// require dependincies
 var express = require('express');
 var router = express.Router();
 let User = require('../models/User.js');
 let Product = require('../models/product.js');
 let Category = require('../models/category.js');
+porductController = require('../Controllers/product.controller.js');
 
 router.post('/hazem',function (req, res) {
 	let name = req.body.name;
@@ -23,9 +23,8 @@ router.post('/hazem',function (req, res) {
 });
 
 
-// add routes
 
-
+router.post('/product/create',productController.createProduct);
 
 
 module.exports = router;
