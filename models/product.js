@@ -1,6 +1,6 @@
 var mongoose = require('mongoose');
 
-var productSchema = mongoose.Schema({
+var productSchema = new mongoose.Schema({
     name:{
         type:String,
         required:true,
@@ -10,10 +10,14 @@ var productSchema = mongoose.Schema({
         type:String,
         required:true
     },
-    value:Number,
-    subcategory_id: [{type:Schema.Types.ObjectId,ref:'Subcategory'}]
+	properties: [{ attribute: String, value: String }],
+    subcategory_id: {
+	    type: mongoose.Schema.Types.ObjectId,
+	    ref: 'SubCategory'
+    }
+
 })
 
-var product = mongoose.model("Product", productSchema);
+var Product = mongoose.model("Product", productSchema);
 
-module.exports = product;
+module.exports = Product;
