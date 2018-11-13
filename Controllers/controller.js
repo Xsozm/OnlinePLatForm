@@ -1,6 +1,7 @@
-const mongoose = require ('mongoose');
-const product  = mongoose.model('Product')
-const cart     = mongoose.model('Cart')
+const mongoose      = require ('mongoose');
+const product       = require('../models/product')
+const subcategory   = require('../models/subCategory')
+const cart          = require('../models/Cart')
 
 module.exports =
 {
@@ -29,10 +30,20 @@ module.exports =
     },
     AddingProductTOCart : async (req, res, next) =>{
 
-        var y = await cart.find().populate('products.product').exec(function (err,data){
+        var y = await cart.populate('products.product').exec(function (err,data){
             if(err) return handleError(err);
 
-            console.log(data.products.product.name);
+            var c = new cart ({
+
+                user : {},
+                products:
+                [{
+                    product : data.products.product,
+                    isSample: data.products.isSample
+                }]
+
+            })
+
         });
         
 
