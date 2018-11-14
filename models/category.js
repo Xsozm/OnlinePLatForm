@@ -9,7 +9,7 @@ const CategorySchema = new Schema({
         type: String,
         required: true
     },
-    subCategories: [{subCategoryId:String}],
+    subCategories: [{type: Schema.Types.ObjectId,ref:'SubCategory'}],
     created_at: {
       type: Date,
       required: true

@@ -28,25 +28,25 @@ let UserSchema = new mongoose.Schema({
 let User = mongoose.model('User', UserSchema);
 module.exports = User;
 
-let firstuser =  new User ({
-		email :'haz@gmail.com',
-		username: 'hazem',
-		password : '2',
-		role:2,
-		address:'guc'
-	});	
+// let firstuser =  new User ({
+// 		email :'haz@gmail.com',
+// 		username: 'hazem',
+// 		password : '2',
+// 		role:2,
+// 		address:'guc'
+// 	});	
 
 	console.log(10);
 
 	  
-	  async function run() {
-		// console.log(`mongoose version: ${mongoose.version}`);
-		await firstuser.save();
-	  }
+	//   async function run() {
+	// 	// console.log(`mongoose version: ${mongoose.version}`);
+	// 	await firstuser.save();
+	//   }
 
-	  run();
+	//   run();
 
-	  User.find({}, function(err, data){
-        console.log(">>>> " + data );
- });
+// 	  User.find({}, function(err, data){
+//         console.log(">>>> " + data );
+//  });
 	

@@ -15,7 +15,7 @@ const db = mongoose.connect(process.env.CONNECTION_STRING,{
 	.catch(err => console.log(err));
 	
 const PORT = process.env.PORT || 3000;;
-// const router = require('./Routes/route');
+const router = require('./Routes/route');
 
 // db.once('connected', function (err) {
 // 	if (err) { return console.error(err) }
@@ -31,6 +31,9 @@ app.get('/', (req, res) => {
 	res.send('Hello World!');
 });
 
-// app.use('/',router)
+app.use('/',router)
 
 require('./models/User');
+require('./models/subCategory');
+require('./models/product');
+require('./models/Cart');

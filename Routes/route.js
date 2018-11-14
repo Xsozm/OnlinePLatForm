@@ -5,6 +5,6 @@ const products = require ('../Controllers/controller')
 
 
 router.get('/products/:productid' , products.ViewProducts);
-// router.get('/products/:prodid' , products.AddingProductTOCart);
+router.get('/products/:productid/:sample' , products.AddingProductTOCart);
 
   module.exports = router;

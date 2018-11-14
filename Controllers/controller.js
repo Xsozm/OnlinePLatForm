@@ -19,7 +19,7 @@ module.exports =
             })
         }else
         {
-            return res.status(404).json
+            return res.status(202).json
             ({
                 err : null,
                 msg : "The product is Found & ready for display",
@@ -30,21 +30,45 @@ module.exports =
     },
     AddingProductTOCart : async (req, res, next) =>{
 
-        var y = await cart.populate('products.product').exec(function (err,data){
-            if(err) return handleError(err);
+        var y = await product.find({_id :req.params.productid});
 
+        if(y.length != 0){  
+            console.log('tmam keda');
             var c = new cart ({
 
-                user : {},
+                user : req.params.userid,
                 products:
                 [{
-                    product : data.products.product,
-                    isSample: data.products.isSample
+                    product  : req.params.productid,
+                    isSample : req.params.sample 
                 }]
 
+            });
+
+            async function run() {
+                await c.save();
+            }
+            
+            run();
+
+            return res.status(202).json
+            ({
+                err : "the product  inserted",
+                msg : "the product is set into the cart ",
+                data: y
+            })
+            
+
+        }else{
+
+            return res.status(404).json
+            ({
+                err : "the product is not inserted",
+                msg : "check the product is found or deleted ",
+                data: null
             })
 
-        });
+        }
         
 
     }
