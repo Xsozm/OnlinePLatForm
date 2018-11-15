@@ -25,6 +25,6 @@ router.post('/hazem',function (req, res) {
 
 
 router.post('/product/create',productController.createProduct);
-
+router.get('/product/findBySubCategory/:subCategory',productController.findBySubCategories);
 
 module.exports = router;

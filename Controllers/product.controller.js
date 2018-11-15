@@ -1,10 +1,11 @@
 var mongoose = require('mongoose'),
-Product = mongoose.model('Product');
+Product = mongoose.model('Product'),
+SubCategory = mongoose.model('subCategory');
 
 
 
 
-module.exports.createProduct = async function(req, res, next) {
+module.exports.createProduct = function(req, res, next) {
 
   var valid = req.body.name && Validations.isString(req.body.name) &&
       req.body.description && Validations.isString(req.body.description) &&
@@ -41,6 +42,37 @@ module.exports.createProduct = async function(req, res, next) {
       msg: "Created product successfully",
       data: newProduct
     });
+
+  });
+
+}
+
+module.exports.findBySubCategories = function(req, res, next) {
+
+  var subCategoryName = req.params.subCategory;
+
+  SubCategory.find({
+    name:subCategoryName
+  }).exec(function(err, subCategory) {
+    if (err) {
+      console.log(err);
+      return res.status(500).json({
+        err: null,
+        msg: 'Error Occured while retrieving data'
+      });
+    }
+
+    Product.find({
+      '_id':{ $in: subCategory}
+    }).exec(function(err, products){
+
+      return res.status(200).json({
+        err: null,
+        msg: 'finished successfully',
+        data: products
+      });
+
+    };
 
   });
 
