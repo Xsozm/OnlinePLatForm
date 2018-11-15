@@ -5,7 +5,7 @@ SubCategory = mongoose.model('subCategory');
 
 
 
-module.exports.createProduct = function(req, res, next) {
+module.exports.createProduct = function(re1q, res, next) {
 
   var valid = req.body.name && Validations.isString(req.body.name) &&
       req.body.description && Validations.isString(req.body.description) &&
