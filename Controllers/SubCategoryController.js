@@ -1,7 +1,6 @@
-var mongoose = require('mongoose'),
-	Product = mongoose.model('Product'),
-	SubCategory = mongoose.model('subCategory');
-module.exports.createProduct = function(req, res, next) {
+var mongoose = require('mongoose');
+let	SubCategory = require('../models/subCategory.js');
+module.exports.create = function(req, res, next) {
 
 	var valid = req.body.name && Validations.isString(req.body.name) &&
 		req.body.attributes  &&

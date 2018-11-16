@@ -3,7 +3,9 @@ var router = express.Router();
 let User = require('../models/User.js');
 let Product = require('../models/product.js');
 let Category = require('../models/category.js');
-porductController = require('../Controllers/product.controller.js');
+let porductController = require('../Controllers/product.controller.js');
+let SubCategoryController = require('../Controllers/SubCategoryController.js');
+
 
 router.post('/hazem',function (req, res) {
 	let name = req.body.name;
@@ -24,8 +26,8 @@ router.post('/hazem',function (req, res) {
 
 
 
-router.post('/product/create',productController.createProduct);
-router.get('/product/findBySubCategory/:subCategory',productController.findBySubCategories);
+router.post('/product/create',porductController.createProduct);
+router.get('/product/findBySubCategory/:subCategory',porductController.findBySubCategories);
 router.post('/subcategory/create',SubCategoryController.create);
 
 

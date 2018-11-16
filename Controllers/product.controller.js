@@ -1,11 +1,11 @@
-var mongoose = require('mongoose'),
-Product = mongoose.model('Product'),
-SubCategory = mongoose.model('subCategory');
+var mongoose = require('mongoose')
+	let Product = require('../models/product.js');
+let SubCategory = require('../models/subCategory');
 
 
 
 
-module.exports.createProduct = function(re1q, res, next) {
+module.exports.createProduct = function(req, res, next) {
 
   var valid = req.body.name && Validations.isString(req.body.name) &&
       req.body.description && Validations.isString(req.body.description) &&
@@ -72,7 +72,7 @@ module.exports.findBySubCategories = function(req, res, next) {
         data: products
       });
 
-    };
+    });
 
   });
 
