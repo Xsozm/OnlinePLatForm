@@ -5,6 +5,7 @@ let Product = require('../models/product.js');
 let Category = require('../models/category.js');
 let porductController = require('../Controllers/product.controller.js');
 let SubCategoryController = require('../Controllers/SubCategoryController.js');
+const cart = require ('../Controllers/CartController');
 
 
 router.post('/hazem',function (req, res) {
@@ -29,6 +30,8 @@ router.post('/hazem',function (req, res) {
 router.post('/product/create',porductController.createProduct);
 router.get('/product/findBySubCategory/:subCategory',porductController.findBySubCategories);
 router.post('/subcategory/create',SubCategoryController.create);
+router.get('/products/:productid' , cart.ViewProducts);
+router.get('/products/:productid/:sample' , cart.AddingProductTOCart);
 
 
 module.exports = router;
