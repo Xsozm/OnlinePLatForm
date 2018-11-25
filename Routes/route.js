@@ -6,7 +6,8 @@ let Category = require('../models/category.js');
 let porductController = require('../Controllers/product.controller.js');
 let SubCategoryController = require('../Controllers/SubCategoryController.js');
 const cart = require ('../Controllers/CartController');
-
+const AdminController = require('../Controllers/AdminController');
+const UserController = require('../Controllers/UserController');
 
 router.post('/hazem',function (req, res) {
 	let name = req.body.name;
@@ -34,4 +35,10 @@ router.get('/products/:productid' , cart.ViewProducts);
 router.get('/products/:productid/:sample' , cart.AddingProductTOCart);
 
 
+router.get('/admin/viewRequests/',AdminController.ViewRequests);
+router.post('/admin/approveRequest/',AdminController.ApproveRequest);
+router.post('/admin/rejectRequest/',AdminController.RejectRequest);
+
+
+router.post('/user/register/', UserController.Register);
 module.exports = router;
