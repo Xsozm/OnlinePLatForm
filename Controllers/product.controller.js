@@ -6,11 +6,10 @@ let validator = require('lodash');
 
 module.exports.createProduct = function(req, res) {
 
-	//validation
+
 	var valid = req.body.name && validator.isString(req.body.name) &&
-		req.body.description  &&
-		req.body.properties && (req.body.subcategory_id) && validator.isString(req.body.subcategory_id) ;
-//	res.status(200).json(valid)
+		req.body.description  && validator.isString(req.body.description)
+		req.body.properties && validator.isArray(req.body.properties) &&  (req.body.subcategory_id) && validator.isString(req.body.subcategory_id) ;
 
 	if (!valid) {
 		return res.status(422).json({
