@@ -10,7 +10,7 @@ var productSchema = new mongoose.Schema({
         type:String,
         required:true
     },
-	properties: [{ attribute: String, value: String }],
+	properties: [{  }],
     subcategory_id: {
 	    type: mongoose.Schema.Types.ObjectId,
 	    ref: 'SubCategory'

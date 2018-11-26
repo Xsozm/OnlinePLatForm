@@ -8,6 +8,7 @@ let SubCategoryController = require('../Controllers/SubCategoryController.js');
 const cart = require ('../Controllers/CartController');
 const AdminController = require('../Controllers/AdminController');
 const UserController = require('../Controllers/UserController');
+const JSON = require('circular-json');
 
 router.post('/hazem',function (req, res) {
 	let name = req.body.name;

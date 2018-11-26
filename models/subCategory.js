@@ -5,19 +5,17 @@ const SubCategorySchema = new Schema({
         type: String,
         required: true
     },
-    attributes:  {
-      type: Map,
-      of: String
-    },
+    attributes:  [{
+    	//array of jsons
+
+    }],
     parentCategoryId: String,
     products:[{productId:String}],
     created_at: {
       type: Date,
-      required: true
     },
     updated_at: {
       type: Date,
-      required: true
     },
 });
 

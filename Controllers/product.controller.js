@@ -1,32 +1,34 @@
-var mongoose = require('mongoose')
-	let Product = require('../models/product.js');
+let mongoose = require('mongoose')
+let Product = require('../models/product.js');
 let SubCategory = require('../models/subCategory');
+let validator = require('lodash');
 
 
+module.exports.createProduct = function(req, res) {
+
+	//validation
+	var valid = req.body.name && validator.isString(req.body.name) &&
+		req.body.description  &&
+		req.body.properties && (req.body.subcategory_id) && validator.isString(req.body.subcategory_id) ;
+//	res.status(200).json(valid)
+
+	if (!valid) {
+		return res.status(422).json({
+			err: null,
+			msg: 'One or More field(s) is missing or of incorrect type',
+			data: null
+		});
+	}
 
 
-module.exports.createProduct = function(req, res, next) {
+	let product = {
+		name: req.body.name,
+		description: req.body.description,
+		properties: req.body.properties,
+		subcategory_id: req.body.subcategory_id
+	};
 
-  var valid = req.body.name && Validations.isString(req.body.name) &&
-      req.body.description && Validations.isString(req.body.description) &&
-      req.body.value && typeof req.body.value == "number"&&
-      req.body.subcategory_id ;
 
-    // error if not valid
-    if (!valid) {
-      return res.status(422).json({
-        err: null,
-        msg: 'One or More field(s) is missing or of incorrect type',
-        data: null
-      });
-    }
-
-    var product = {
-      name: req.body.name,
-      description: req.body.description,
-      value:req.body.value,
-      subcategory_id:req.body.subcategory_id
-    };
 
 
   Product.create(product, function(err, newProduct) {
