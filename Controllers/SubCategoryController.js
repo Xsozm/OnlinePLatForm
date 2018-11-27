@@ -44,27 +44,28 @@ module.exports.create = function(req, res, next) {
 
 module.exports.findProductsBySubCategory = function(req, res, next) {
 
-  var subCategoryName = req.params.subCategory;
+  var subCategoryID = req.params.subCategoryID;
 
   SubCategory.find({
-    name:subCategoryName
+    _id:subCategoryID
   }).exec(function(err, subCategory) {
-    if (err) {
+    if (err || !subCategory) {
       console.log(err);
       return res.status(500).json({
         err: null,
-        msg: 'Error Occured while retrieving data'
+        msg: 'No such subCategory found',
+				data: null
       });
     }
 
     Product.find({
-      '_id':{ $in: subCategory}
+      '_id':{ $in: subCategory[0].products.map(pID => pID.productId)}
     }).exec(function(err, products){
 
       return res.status(200).json({
         err: null,
         msg: 'finished successfully',
-        data: products
+        data:products
       });
 
     });
