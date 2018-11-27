@@ -31,11 +31,14 @@ router.post('/hazem',function (req, res) {
 
 
 router.post('/product/create',porductController.createProduct);
+router.put('/product/:productID',porductController.updateProduct);
 router.get('/products/:productid' , cart.ViewProducts);
 router.get('/products/:productid/:sample' , cart.AddingProductTOCart);
 
+
 router.post('/subcategory/create',SubCategoryController.create);
 router.get('/subcategory/findProductsBySubCategory/:subCategoryID',SubCategoryController.findProductsBySubCategory);
+
 
 router.get('/admin/viewRequests/',AdminController.ViewRequests);
 router.post('/admin/approveRequest/',AdminController.ApproveRequest);
