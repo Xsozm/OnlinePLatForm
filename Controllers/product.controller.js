@@ -27,54 +27,46 @@ module.exports.createProduct = function(req, res) {
 		subcategory_id: req.body.subcategory_id
 	};
 
+	SubCategory.countDocuments({_id: product.subcategory_id}, function (err, count){
+		  // if document exists
+	    if(count>0){
+					Product.create(product, function(err, newProduct) {
+				    if (err) {
+				      return res.status(422).json({
+				        err: err,
+				        msg: "Couldn't create product",
+				        data: null
+				      });
+				    }
+						else {
+							var newProductID = {productId:newProduct._id};
+							SubCategory.findOneAndUpdate({_id:product.subcategory_id},{$push:{products:newProductID}},{ new: true },(err, doc) => {
+							    if (err) {
+										return res.status(200).json({
+										 err: err,
+										 msg: "Couldn't create product",
+										 data: null
+									 });
+							    }
+									var ret = {newProduct:newProduct,doc:doc};
+									return res.status(200).json({
+										err: null,
+										msg: "Created product successfully",
+										// data: newProduct
+										data: ret
+									});
 
-
-
-  Product.create(product, function(err, newProduct) {
-    if (err) {
-      return res.status(422).json({
-        err: err,
-        msg: "Couldn't create product",
-        data: null
-      });
-    }
-    return res.status(200).json({
-      err: null,
-      msg: "Created product successfully",
-      data: newProduct
-    });
-
-  });
-
-}
-
-module.exports.findBySubCategories = function(req, res, next) {
-
-  var subCategoryName = req.params.subCategory;
-
-  SubCategory.find({
-    name:subCategoryName
-  }).exec(function(err, subCategory) {
-    if (err) {
-      console.log(err);
-      return res.status(500).json({
-        err: null,
-        msg: 'Error Occured while retrieving data'
-      });
-    }
-
-    Product.find({
-      '_id':{ $in: subCategory}
-    }).exec(function(err, products){
-
-      return res.status(200).json({
-        err: null,
-        msg: 'finished successfully',
-        data: products
-      });
-
-    });
-
-  });
+								});
+						}
+				  });
+	    }
+			else {
+				return res.status(422).json({
+					err: err,
+					msg: "Couldn't create product; No subCategory with this id exists",
+					data: null
+				});
+			}
+	});
 
 }

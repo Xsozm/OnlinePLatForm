@@ -31,7 +31,7 @@ router.post('/hazem',function (req, res) {
 
 
 router.post('/product/create',porductController.createProduct);
-router.get('/product/findBySubCategory/:subCategory',porductController.findBySubCategories);
+//router.get('/product/findBySubCategory/:subCategory',porductController.findBySubCategories);
 router.post('/subcategory/create',SubCategoryController.create);
 router.get('/products/:productid' , cart.ViewProducts);
 router.get('/products/:productid/:sample' , cart.AddingProductTOCart);

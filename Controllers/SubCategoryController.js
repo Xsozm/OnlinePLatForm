@@ -1,5 +1,6 @@
 var mongoose = require('mongoose');
 let	SubCategory = require('../models/subCategory.js');
+let Product = require('../models/product.js');
 let validator = require('lodash');
 
 module.exports.create = function(req, res, next) {
@@ -38,5 +39,36 @@ module.exports.create = function(req, res, next) {
 		});
 
 	});
+
+}
+
+module.exports.findProductsBySubCategory = function(req, res, next) {
+
+  var subCategoryName = req.params.subCategory;
+
+  SubCategory.find({
+    name:subCategoryName
+  }).exec(function(err, subCategory) {
+    if (err) {
+      console.log(err);
+      return res.status(500).json({
+        err: null,
+        msg: 'Error Occured while retrieving data'
+      });
+    }
+
+    Product.find({
+      '_id':{ $in: subCategory}
+    }).exec(function(err, products){
+
+      return res.status(200).json({
+        err: null,
+        msg: 'finished successfully',
+        data: products
+      });
+
+    });
+
+  });
 
 }
