@@ -6,10 +6,6 @@ var productSchema = new mongoose.Schema({
         required:true,
         unique:true
     },
-    value:{
-      type:Number,
-      required:true
-    },
     description:{
         type:String,
         required:true
@@ -18,7 +14,13 @@ var productSchema = new mongoose.Schema({
     subcategory_id: {
 	    type: mongoose.Schema.Types.ObjectId,
 	    ref: 'SubCategory'
-    }
+    },
+    photos: {
+  		type: String
+  	},
+    rating:{
+  		type: Number
+  	}
 
 })
 
