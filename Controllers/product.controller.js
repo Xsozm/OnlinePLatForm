@@ -8,7 +8,8 @@ module.exports.createProduct = function(req, res) {
 
 
 	var valid = req.body.name && validator.isString(req.body.name) &&
-		req.body.description  && validator.isString(req.body.description)
+		req.body.description  && validator.isString(req.body.description) &&
+		req.body.value && validator.isNumber(req.body.value) &&
 		req.body.properties && validator.isArray(req.body.properties) &&  (req.body.subcategory_id) && validator.isString(req.body.subcategory_id) ;
 
 	if (!valid) {
@@ -23,6 +24,7 @@ module.exports.createProduct = function(req, res) {
 	let product = {
 		name: req.body.name,
 		description: req.body.description,
+		value: req.body.value,
 		properties: req.body.properties,
 		subcategory_id: req.body.subcategory_id
 	};
@@ -74,7 +76,8 @@ module.exports.createProduct = function(req, res) {
 
 module.exports.updateProduct = function(req,res){
 	var valid = req.body.name && validator.isString(req.body.name) &&
-		req.body.description  && validator.isString(req.body.description)
+		req.body.description  && validator.isString(req.body.description) &&
+		req.body.value && validator.isNumber(req.body.value) &&
 		req.body.properties && validator.isArray(req.body.properties) &&  (req.body.subcategory_id) && validator.isString(req.body.subcategory_id) ;
 
 	if (!valid) {
@@ -86,17 +89,12 @@ module.exports.updateProduct = function(req,res){
 	}
 
 	var pID = req.params.productID;
-	var newProduct = {
-		_id:pID,
-		name:req.body.name,
-		description:req.body.description,
-		properties:req.body.properties,
-		subcategory_id:req.body.subcategory_id
-	};
+	
 
 	Product.findByIdAndUpdate(pID,{ $set: {
 			name:req.body.name,
 			description:req.body.description,
+			value: req.body.value,
 			properties:req.body.properties,
 			subcategory_id:req.body.subcategory_id
 		}}, { new: true },(err,product)=>{
@@ -119,5 +117,5 @@ module.exports.updateProduct = function(req,res){
 }
 module.exports.DeleteAProduct = function (res ,req ,next){
 	var result = Product.deleteOne({_id : req.params.productid});
-	
+
 }

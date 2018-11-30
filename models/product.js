@@ -6,6 +6,10 @@ var productSchema = new mongoose.Schema({
         required:true,
         unique:true
     },
+    value:{
+      type:Number,
+      required:true
+    },
     description:{
         type:String,
         required:true
