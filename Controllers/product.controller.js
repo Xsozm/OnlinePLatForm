@@ -117,3 +117,7 @@ module.exports.updateProduct = function(req,res){
 	});
 
 }
+module.exports.DeleteAProduct = function (res ,req ,next){
+	var result = Product.deleteOne({_id : req.params.productid});
+	
+}

@@ -34,6 +34,11 @@ router.post('/product/create',porductController.createProduct);
 router.put('/product/:productID',porductController.updateProduct);
 router.get('/products/:productid' , cart.ViewProducts);
 router.get('/products/:productid/:sample' , cart.AddingProductTOCart);
+router.get('/products/mycart' , cart.ShowProductsInCart); // my cart show the products in my cart
+router.get('/products/:productid' , porductController.DeleteAProduct); // deleting a product
+
+
+
 
 
 router.post('/subcategory/create',SubCategoryController.create);
