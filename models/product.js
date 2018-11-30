@@ -16,7 +16,7 @@ var productSchema = new mongoose.Schema({
 	    ref: 'SubCategory'
     },
     photos: {
-  		type: String
+  		type: [String]
   	},
     rating:{
   		type: Number
