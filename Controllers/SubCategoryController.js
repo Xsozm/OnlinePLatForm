@@ -44,7 +44,17 @@ module.exports.create = function(req, res, next) {
 
 module.exports.findProductsBySubCategory = function(req, res, next) {
 
+	var valid = req.params.subCategoryID && validator.isString(req.params.subCategoryID);
+
+	if (!valid) {
+		return res.status(422).json({
+			err: null,
+			msg: 'One or More field(s) is missing or of incorrect type',
+			data: null
+		});
+	}
   var subCategoryID = req.params.subCategoryID;
+
 
   SubCategory.find({
     _id:subCategoryID
@@ -73,3 +83,39 @@ module.exports.findProductsBySubCategory = function(req, res, next) {
   });
 
 }
+
+module.exports.findProductsByPrice = function(req,res,next) {
+	var valid = req.query.minPrice && !isNaN(req.query.minPrice) &&
+							req.query.maxPrice && !isNaN(req.query.maxPrice)&&
+							req.params.subCategoryID && validator.isString(req.params.subCategoryID)&&
+							req.query.maxPrice >= req.query.minPrice;
+
+	if (!valid) {
+		return res.status(422).json({
+			err: null,
+			msg: 'One or More field(s) is missing or of incorrect type',
+			data: null
+		});
+	}
+
+		Product.find({
+			subcategory_id:req.params.subCategoryID,
+			value:{$gte:req.query.minPrice , $lte:req.query.maxPrice}
+		}).exec((err,products)=>{
+			console.log("found");
+			if(err || !products)
+			{
+				return res.status(422).json({
+					err: err,
+					msg: 'No products found',
+					data: null
+				});
+			}
+
+			return res.status(200).json({
+				err: null,
+				msg: 'Query executed successfully',
+				data: products
+			});
+		});
+	}
