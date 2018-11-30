@@ -12,7 +12,11 @@ let UserSchema = new mongoose.Schema({
 		required: true,
 		trim: true
 	},
-	password: {
+	salt: {
+		type: String,
+		required: true,
+	},
+	hash: {
 		type: String,
 		required: true,
 	},
