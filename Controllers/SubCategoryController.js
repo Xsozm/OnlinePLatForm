@@ -60,7 +60,6 @@ module.exports.findProductsBySubCategory = function(req, res, next) {
     _id:subCategoryID
   }).exec(function(err, subCategory) {
     if (err || !subCategory) {
-      console.log(err);
       return res.status(500).json({
         err: null,
         msg: 'No such subCategory found',
@@ -102,7 +101,6 @@ module.exports.findProductsByPrice = function(req,res,next) {
 			subcategory_id:req.params.subCategoryID,
 			value:{$gte:req.query.minPrice , $lte:req.query.maxPrice}
 		}).exec((err,products)=>{
-			console.log("found");
 			if(err || !products)
 			{
 				return res.status(422).json({
@@ -119,3 +117,39 @@ module.exports.findProductsByPrice = function(req,res,next) {
 			});
 		});
 	}
+
+
+	module.exports.findProductsByRating = function(req,res,next) {
+		var valid = req.query.minRate && !isNaN(req.query.minRate) &&
+								req.query.maxRate && !isNaN(req.query.maxRate)&&
+								req.params.subCategoryID && validator.isString(req.params.subCategoryID)&&
+								req.query.maxRate >= req.query.minRate;
+
+		if (!valid) {
+			return res.status(422).json({
+				err: null,
+				msg: 'One or More field(s) is missing or of incorrect type',
+				data: null
+			});
+		}
+
+			Product.find({
+				subcategory_id:req.params.subCategoryID,
+				rating:{$gte:req.query.minRate , $lte:req.query.maxRate}
+			}).exec((err,products)=>{
+				if(err || !products)
+				{
+					return res.status(422).json({
+						err: err,
+						msg: 'No products found',
+						data: null
+					});
+				}
+
+				return res.status(200).json({
+					err: null,
+					msg: 'Query executed successfully',
+					data: products
+				});
+			});
+		}

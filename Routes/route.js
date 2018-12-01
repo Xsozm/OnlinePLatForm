@@ -38,7 +38,8 @@ router.get('/products/:productid/:sample' , cart.AddingProductTOCart);
 
 router.post('/subcategory/create',SubCategoryController.create);
 router.get('/subcategory/findProductsBySubCategory/:subCategoryID',SubCategoryController.findProductsBySubCategory);
-
+router.get('/subcategory/findProductsByPrice/:subCategoryID',SubCategoryController.findProductsByPrice);
+router.get('/subcategory/findProductsByRating/:subCategoryID',SubCategoryController.findProductsByRating);
 
 router.get('/admin/viewRequests/',AdminController.ViewRequests);
 router.post('/admin/approveRequest/',AdminController.ApproveRequest);
