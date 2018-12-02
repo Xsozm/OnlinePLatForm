@@ -12,7 +12,8 @@ const SubCategorySchema = new Schema({
     parentCategoryId: String,
     products:[{productId:String}],
     created_at: {
-      type: Date,
+	    type: Date,
+	    default : Date.now
     },
     updated_at: {
       type: Date,

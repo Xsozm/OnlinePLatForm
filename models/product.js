@@ -14,7 +14,14 @@ var productSchema = new mongoose.Schema({
     subcategory_id: {
 	    type: mongoose.Schema.Types.ObjectId,
 	    ref: 'SubCategory'
-    }
+    },
+	created_at: {
+		type: Date,
+		default : Date.now
+	},
+	updated_at: {
+		type: Date,
+	},
 
 })
 

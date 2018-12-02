@@ -4,9 +4,10 @@ const Schema    = mongoose.Schema;
 
 const Orders = new Schema ({
 
-    products:{
-        type : String,
-    },
+
+	    products: [{
+		    type: Schema.ObjectId,
+		    ref: 'Product' }],
     price : {
         type: Number
     },
@@ -24,4 +25,5 @@ const Orders = new Schema ({
 
 });
 
-mongoose.model('Orders' , Orders);
+let Order =mongoose.model('Order' , Orders);
+module.exports = Order;
