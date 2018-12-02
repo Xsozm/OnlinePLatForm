@@ -10,7 +10,10 @@ const SubCategorySchema = new Schema({
 
     }],
     parentCategoryId: String,
-    products:[{productId:String}],
+    products:[{
+      productId:String,
+      _id:false
+    }],
     created_at: {
 	    type: Date,
 	    default : Date.now

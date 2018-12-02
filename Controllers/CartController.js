@@ -71,6 +71,36 @@ module.exports =
         }
         
 
+    },
+    ShowProductsInCart: async (req ,res ,next) => {
+
+        var carts = await cart.find();
+        var pro  = await product.find(); 
+
+        for(i = 0; i<carts.length ;i++){
+           var obj =  carts[i];
+          for(j = 0 ;j < pro.length ;j++){
+             for(k = 0 ; k <obj.products.length ;k++ ){
+                if(obj.products[k].product == pro[j].id){
+                    console.log("found one");
+                    var pro2 = await product.find({_id:obj.products[k].product});
+                    return res.status(202).json({
+                        err : null,
+                        msg  :"found products in cart",
+                        data :pro2 
+                    });
+                }else{
+                    console.log("no products in cart here");
+                    return res.status(404).json({
+                        err  :"No products in the cart",
+                        msg  :"check his/her authentication",
+                        data : null
+                    });
+                }
+             } 
+          }
+
+        }
     }
 
 

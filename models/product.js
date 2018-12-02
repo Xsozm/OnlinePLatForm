@@ -22,6 +22,13 @@ var productSchema = new mongoose.Schema({
 	updated_at: {
 		type: Date,
 	},
+    price: Number,
+    photos: {
+  		type: [String]
+  	},
+    rating:{
+  		type: Number
+  	}
 
 })
 
