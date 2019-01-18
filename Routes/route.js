@@ -60,5 +60,6 @@ router.post('/admin/rejectRequest/',AdminController.RejectRequest);
 router.post('/user/register/', UserController.Register);
 router.post('/order/make/', UserController.makeorder);
 router.post('/user/Login/', UserController.Login);
+router.post('/user/request/',UserController.makeRequest);
 
 module.exports = router;

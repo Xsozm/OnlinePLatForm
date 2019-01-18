@@ -1,5 +1,6 @@
 var mongoose = require('mongoose')
 var User = require('../models/User')
+var Request = require('../models/Request')
 var crypto = require('crypto')
 let validator = require('lodash');
 let Order = require('../models/Order.js');
@@ -96,5 +97,46 @@ module.exports.makeorder = function(req, res) {
 
 
 
+
+}
+
+module.exports.makeRequest = function(req,res){
+  var valid = req.body.email &&
+  req.body.name &&
+  req.body.mob &&
+  req.body.address &&
+  req.body.description;
+
+  if (!valid) {
+    return res.status(422).json({
+      err: null,
+      msg: 'One or More field(s) is missing or of incorrect type',
+      data: null
+    });
+  }
+
+  let request = {
+    email:req.body.email,
+    name:req.body.name,
+    mob:req.body.mob,
+    address:req.body.address,
+    description:req.body.description
+  };
+
+  Request.create(request, function(err, request) {
+		if (err) {
+			return res.status(422).json({
+				err: err,
+				msg: "Couldn't create request",
+				data: null
+			});
+		}
+		return res.status(200).json({
+			err: null,
+			msg: "Created request successfully",
+			data: request
+		});
+
+	});
 
 }

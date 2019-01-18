@@ -13,7 +13,7 @@ let RequestSchema = new mongoose.Schema({
 		trim: true
 	},
 	mob: {
-		type: Number,
+		type: String,
 		required: true,
 	},
 	address:{
