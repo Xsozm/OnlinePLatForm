@@ -26,7 +26,9 @@ let UserSchema = new mongoose.Schema({
 	},
 	address: {
 		type: String,
-	}
+	},
+	resetPasswordToken: String,
+  resetPasswordExpires: Date
 
 });
 let User = mongoose.model('User', UserSchema);

@@ -61,5 +61,8 @@ router.post('/user/register/', UserController.Register);
 router.post('/order/make/', UserController.makeorder);
 router.post('/user/Login/', UserController.Login);
 router.post('/user/request/',UserController.makeRequest);
+router.post('/user/forgot/',UserController.Forgot);
+router.get('/reset/:token',UserController.resetpass);
+router.post('/user/changepass',UserController.changepass);
 
 module.exports = router;
