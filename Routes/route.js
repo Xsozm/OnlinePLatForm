@@ -5,6 +5,7 @@ let Category = require('../models/category.js');
 let SubCategory = require('../models/subCategory.js');
 let porductController = require('../Controllers/product.controller.js');
 let SubCategoryController = require('../Controllers/SubCategoryController.js');
+let CategoryController = require('../Controllers/CategoryController.js');
 const cart = require ('../Controllers/CartController');
 const AdminController = require('../Controllers/AdminController');
 const UserController = require('../Controllers/UserController');
@@ -19,6 +20,8 @@ router.post('/product/create',porductController.createProduct);
 router.put('/product/:productID',porductController.updateProduct);
 router.get('/products/:productid' , cart.ViewProducts);
 router.get('/products/:productid/:sample' , cart.AddingProductTOCart);
+
+router.post('/category/create',CategoryController.create);
 
 // Posts a subCategory
 // For the JSON body check the schema in the models folder

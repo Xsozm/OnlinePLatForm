@@ -11,13 +11,12 @@ const CategorySchema = new Schema({
     },
     subCategories: [{type: Schema.Types.ObjectId,ref:'SubCategory'}],
     created_at: {
-      type: Date,
-      required: true
-    },
-    updated_at: {
-      type: Date,
-      required: true
-    },
+  		type: Date,
+  		default : Date.now
+  	},
+  	updated_at: {
+  		type: Date,
+  	},
 });
 
 let Category=  mongoose.model('Category', CategorySchema);
