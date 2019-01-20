@@ -66,21 +66,24 @@ module.exports = {
             user.resetPasswordExpires = Date.now() + 3600000; // 1 hour
 
             user.save(function(err) {
+              console.log(err);
               done(err, token, user);
             });
           });
         },
         function(token, user, done) {
+          console.log(user);
+
           var smtpTransport = nodemailer.createTransport({
             service: 'SendGrid',
             auth: {
-              user: 'forgotpassword',
+              user: 'forgotpassword',// credentials of the email responsible for password retrieval
               pass: 'platform1234'
             }
           });
           var mailOptions = {
             to: user.email,
-            from: 'forgotpassword@platformenactus.com',
+            from: 'forgotpassword@platformenactus.com',//email responsible for password retrieval
             subject: 'Node.js Password Reset',
             text: 'You are receiving this because you (or someone else) have requested the reset of the password for your account.\n\n' +
               'Please click on the following link, or paste this into your browser to complete the process:\n\n' +
@@ -92,7 +95,7 @@ module.exports = {
           });
         }
       ], function(err) {
-        if (err) return next(err);
+        if (err) console.log(err);
       });
   },
   resetpass:function(req, res) {
@@ -104,7 +107,10 @@ module.exports = {
         return res.redirect('back');
       }
 
-      user.password = req.body.password;
+      var Salt = crypto.randomBytes(16).toString('hex');
+      var Hash = crypto.pbkdf2Sync(req.body.password, Salt, 1000, 64, 'sha512').toString('hex');
+      user.salt = Salt;
+      user.hash = Hash;
       user.resetPasswordToken = undefined;
       user.resetPasswordExpires = undefined;
 
@@ -119,13 +125,13 @@ module.exports = {
     var smtpTransport = nodemailer.createTransport('SMTP', {
       service: 'SendGrid',
       auth: {
-        user: '!!! YOUR SENDGRID USERNAME !!!',
-        pass: '!!! YOUR SENDGRID PASSWORD !!!'
+        user: 'forgotpassword',// credentials of the email responsible for password retrieval
+        pass: 'platform1234'
       }
     });
     var mailOptions = {
       to: user.email,
-      from: 'passwordreset@demo.com',
+      from: 'forgotpassword@platformenactus.com',//email responsible for password retrieval
       subject: 'Your password has been changed',
       text: 'Hello,\n\n' +
         'This is a confirmation that the password for your account ' + user.email + ' has just been changed.\n'
@@ -140,106 +146,113 @@ module.exports = {
 });
 },
 
-changepass:function(req,res) {
-    User.findOne({email: req.body.email}, function (err, user) {
-        if (!user) {
-            // notfound
-        }
-        var Salt = crypto.randomBytes(16).toString('hex');
-        var Hash = crypto.pbkdf2Sync(req.body.password, Salt, 1000, 64, 'sha512').toString('hex');
-        user.salt = Salt;
-        user.hash = Hash;
-        user.save(function (err) {
+changepass:function(req,res){
+  User.findOne({ email: req.body.email }, function(err, user) {
+    if (!user) {
+      // notfound
+    }
+    var Salt = crypto.randomBytes(16).toString('hex');
+    var Hash = crypto.pbkdf2Sync(req.body.password, Salt, 1000, 64, 'sha512').toString('hex');
+    user.salt = Salt;
+    user.hash = Hash;
+    user.save(function(err){
 
-        });
     })
-},
+})
+}
 
 
-    makeorder : function (req, res) {
+
+}
+
+module.exports.makeorder = function(req, res) {
 //user the id if the user (we should use token to getthe id but maybe later )
 // price of the order
 // delievry fees
 // products IDs
 
-        var valid = req.body.price && validator.isInteger(req.body.price) &&
-            req.body.delivery && validator.isInteger(req.body.delivery)
-        req.body.products && validator.isArray(req.body.products) && (req.body.user) && validator.isString(req.body.user);
+	var valid = req.body.price && validator.isInteger(req.body.price) &&
+		req.body.delivery  && validator.isInteger(req.body.delivery)
+	req.body.products && validator.isArray(req.body.products) &&  (req.body.user) && validator.isString(req.body.user) ;
 
-        if (!valid) {
-            return res.status(422).json({
-                err: null,
-                msg: 'One or More field(s) is missing or of incorrect type',
-                data: null
-            });
-        }
-
-
-        let order = {
-            price: req.body.price,
-            delivery: req.body.delivery,
-            products: req.body.products,
-            user: req.body.user
-        };
+	if (!valid) {
+		return res.status(422).json({
+			err: null,
+			msg: 'One or More field(s) is missing or of incorrect type',
+			data: null
+		});
+	}
 
 
-        Order.create(order, function (err, neworder) {
-            if (err) {
-                return res.status(422).json({
-                    err: err,
-                    msg: "Couldn't create order",
-                    data: null
-                });
-            }
-            return res.status(200).json({
-                err: null,
-                msg: "Created order successfully",
-                data: neworder
-            });
-
-        });
+	let order = {
+		price: req.body.price,
+		delivery: req.body.delivery,
+		products: req.body.products,
+		user: req.body.user
+	};
 
 
-    },
 
-    makeRequest : function (req, res) {
-        var valid = req.body.email &&
-            req.body.name &&
-            req.body.mob &&
-            req.body.address &&
-            req.body.description;
 
-        if (!valid) {
-            return res.status(422).json({
-                err: null,
-                msg: 'One or More field(s) is missing or of incorrect type',
-                data: null
-            });
-        }
 
-        let request = {
-            email: req.body.email,
-            name: req.body.name,
-            mob: req.body.mob,
-            address: req.body.address,
-            description: req.body.description
-        };
+	Order.create(order, function(err, neworder) {
+		if (err) {
+			return res.status(422).json({
+				err: err,
+				msg: "Couldn't create order",
+				data: null
+			});
+		}
+		return res.status(200).json({
+			err: null,
+			msg: "Created order successfully",
+			data: neworder
+		});
 
-        Request.create(request, function (err, request) {
-            if (err) {
-                return res.status(422).json({
-                    err: err,
-                    msg: "Couldn't create request",
-                    data: null
-                });
-            }
-            return res.status(200).json({
-                err: null,
-                msg: "Created request successfully",
-                data: request
-            });
+	});
 
-        });
 
-    }
+
+
+}
+
+module.exports.makeRequest = function(req,res){
+  var valid = req.body.email &&
+  req.body.name &&
+  req.body.mob &&
+  req.body.address &&
+  req.body.description;
+
+  if (!valid) {
+    return res.status(422).json({
+      err: null,
+      msg: 'One or More field(s) is missing or of incorrect type',
+      data: null
+    });
+  }
+
+  let request = {
+    email:req.body.email,
+    name:req.body.name,
+    mob:req.body.mob,
+    address:req.body.address,
+    description:req.body.description
+  };
+
+  Request.create(request, function(err, request) {
+		if (err) {
+			return res.status(422).json({
+				err: err,
+				msg: "Couldn't create request",
+				data: null
+			});
+		}
+		return res.status(200).json({
+			err: null,
+			msg: "Created request successfully",
+			data: request
+		});
+
+	});
+
 }
