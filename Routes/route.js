@@ -18,6 +18,9 @@ var router = express.Router();
 
 router.post('/product/create',porductController.createProduct);
 router.put('/product/:productID',porductController.updateProduct);
+// Returns 3 suggested products belonging to subCategory with id = subCategoryID
+router.get('/product/random/:subCategoryID',porductController.getRandom);
+
 router.get('/products/:productid' , cart.ViewProducts);
 router.get('/products/:productid/:sample' , cart.AddingProductTOCart);
 

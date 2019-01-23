@@ -89,7 +89,7 @@ module.exports.updateProduct = function(req,res){
 	}
 
 	var pID = req.params.productID;
-	
+
 
 	Product.findByIdAndUpdate(pID,{ $set: {
 			name:req.body.name,
@@ -119,3 +119,26 @@ module.exports.DeleteAProduct = function (res ,req ,next){
 	var result = Product.deleteOne({_id : req.params.productid});
 
 }
+
+module.exports.getRandom = (req,res,next)=>{
+
+	var valid = req.params.subCategoryID && validator.isString(req.params.subCategoryID);
+
+	if (!valid) {
+		return res.status(422).json({
+			err: null,
+			msg: 'One or More field(s) is missing or of incorrect type',
+			data: null
+		});
+	}
+
+	Product.find({subcategory_id:req.params.subCategoryID}).limit(3).exec(function(err,products){
+	return res.status(200).json({
+		err: null,
+		msg: 'Products retreived successfully',
+		data: products
+	});
+});
+
+
+};
