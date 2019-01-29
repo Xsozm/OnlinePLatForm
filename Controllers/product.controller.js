@@ -1,6 +1,7 @@
 let mongoose = require('mongoose')
 let Product = require('../models/product.js');
 let SubCategory = require('../models/subCategory');
+let whishlist = require('../models/wishlist');
 let validator = require('lodash');
 
 
@@ -141,4 +142,33 @@ module.exports.getRandom = (req,res,next)=>{
 });
 
 
+};
+
+
+module.exports.viewingWhishlist = async function (req ,res ,next){
+
+	list = await whishlist.find({user_id:req.params.userID});
+
+	if(list<=0){
+		return res.status(404).json({
+			err: 'Error',
+			msg: 'No data in wishlist',
+			data: null
+		});
+	}else{
+		prod = whishlist.products.length;
+		for (let index = 0; index < prod; index++) {
+			const element = prod[index];
+
+			Product.find({Product_id:element}).exec(function(err,product){
+				return res.status(200).json({
+					err: null,
+					msg: 'Products retreived successfully',
+					data: product
+				});
+			});
+			
+		}
+	}
+	
 };

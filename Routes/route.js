@@ -15,6 +15,7 @@ var router = express.Router();
 
 
 
+router.get('/product/whishlist/:userID',porductController.viewingWhishlist);
 
 router.post('/product/create',porductController.createProduct);
 router.put('/product/:productID',porductController.updateProduct);
